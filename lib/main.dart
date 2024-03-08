@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
+// POJO (Plain Old Java Object)
 class Country {
   final String? name;
   final String? capital;
@@ -102,47 +103,43 @@ class _TimeTableState extends State<TimeTable> {
         itemCount: _filteredCountries!.length,
         itemBuilder: (context, index) {
           var country = _filteredCountries![index];
-          return Card(
-            child: ListTile(
-              title: Text(country.name ?? ''),
-              subtitle: Text(country.capital ?? ''),
-              trailing: country.flag == null || country.flag!.isEmpty
-                  ? null
-                  : Image.network(
-                country.flag!,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(Icons.error, color: Colors.red);
-                },
-                width: 50,
-                height: 50,
-              ),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text(country.name ?? ''),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Capital: ${country.capital ?? ''}'),
-                          Text('Flag: ${country.flag ?? ''}'),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Close'),
-                        ),
-                      ],
-                    );
-                  },
-                );
+          return ListTile(
+            title: Text(country.name ?? ''),
+            subtitle: Text(country.capital ?? ''),
+            trailing: country.flag == null || country.flag!.isEmpty
+                ? null
+                : Image.network(
+              country.flag!,
+              errorBuilder: (context, error, stackTrace) {
+                return Icon(Icons.error, color: Colors.red);
               },
             ),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text(country.name ?? ''),
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Capital: ${country.capital ?? ''}'),
+                        Text('Flag: ${country.flag ?? ''}'),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Close'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           );
         },
       ),
